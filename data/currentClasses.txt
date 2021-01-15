@@ -1,3 +1,4 @@
 Math
 Psychology
 CS 145
+CS 146
