@@ -1,6 +1,10 @@
+import sys
+sys.path.append("./src")
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QRect, Qt
-import sys
+
+# Read in classes
+import classes as classHelper
 
 class UI(QWidget):
     def setup(self, Controller):
@@ -68,7 +72,7 @@ class UI(QWidget):
 
         # Setting the classes
         classList = QListWidget()
-        currentClasses = getClasses()
+        currentClasses = classHelper.getClasses()
         for i in currentClasses:
             classList.insertItem(0, i)
 
@@ -101,14 +105,6 @@ class Controller(QMainWindow, UI):
 
     def classesMenuSelection(self):
         self.menu.setCurrentIndex(1)
-
-# Read in classes
-def getClasses():
-    classes = []
-    classes.append("Class 1")
-    classes.append("Class 2")
-
-    return classes
 
 
 def window():
