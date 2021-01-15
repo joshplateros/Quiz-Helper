@@ -1,2 +1,3 @@
 Math
 Psychology
+CS 145
