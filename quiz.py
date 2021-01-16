@@ -75,17 +75,24 @@ class UI(QWidget):
         currentClasses = classHelper.getClasses()
         for i in currentClasses:
             classList.insertItem(0, i)
+        
+        selectedClass = classList.selectedItems()
+        classContinue = QPushButton("Continue", self)
 
-    
+        # Grey out continue button
+        classContinue.setDisabled(True)
+        classList.itemSelectionChanged.connect(lambda: classContinue.setDisabled(False))
+
+           
         # Continue buttons, back
         classButtonLayout.addWidget(self.menuButton, alignment=Qt.AlignRight)
-        classContinue = QPushButton("Continue", self)
         classButtonLayout.addWidget(classContinue)
 
         classMainLayout.addLayout(classButtonLayout)
         classButtonLayout.addWidget(classList)
         classMainLayout.addLayout(classEditButtonLayout)
         self.classesSelection.setLayout(classMainLayout)
+
 
 
 
