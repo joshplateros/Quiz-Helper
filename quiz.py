@@ -27,7 +27,7 @@ class UI(QWidget):
         self.menu.addWidget(self.classesSelection)
 
     def beginningMenu(self):
-        self.menuSelection.resize(550, 400)
+        self.menuSelection.resize(750, 500)
         
         mainLayout = QVBoxLayout()
         menuButtonLayout = QHBoxLayout()
@@ -48,7 +48,7 @@ class UI(QWidget):
         self.menuSelection.setLayout(mainLayout)
 
     def classesMenu(self):
-        self.classesSelection.resize(550, 400)
+        self.classesSelection.resize(750, 500)
 
         classMainLayout = QVBoxLayout()
         classButtonLayout = QHBoxLayout()
@@ -60,7 +60,7 @@ class UI(QWidget):
         classMenuTitle.setText("Classes")
         classMenuTitle.setStyleSheet("font: 14pt Century Gothic")
         classMenuTitle.adjustSize()
-        classMenuTitle.move(50, 100)
+        classMenuTitle.move(30, 100)
         self.classesSelection.setWindowTitle("Quiz!!")
 
         # Edit classes
@@ -71,27 +71,44 @@ class UI(QWidget):
         classEditButtonLayout.addWidget(classAddButton)
 
         # Setting the classes
-        classList = QListWidget()
-        currentClasses = classHelper.getClasses()
-        for i in currentClasses:
-            classList.insertItem(0, i)
+        self.classList = QListWidget()
+        self.currentClasses = classHelper.getClasses()
+        for i in self.currentClasses:
+            self.classList.insertItem(0, i)
         
-        selectedClass = classList.selectedItems()
         classContinue = QPushButton("Continue", self)
 
         # Grey out continue button
         classContinue.setDisabled(True)
-        classList.itemSelectionChanged.connect(lambda: classContinue.setDisabled(False))
+        self.classList.itemSelectionChanged.connect(lambda: classContinue.setDisabled(False))
+        
+        # Add / Remove classes
+        classRemoveButton.clicked.connect(self.removeClass)
+        classAddButton.clicked.connect(self.addClass)
 
-           
-        # Continue buttons, back
         classButtonLayout.addWidget(self.menuButton, alignment=Qt.AlignRight)
-        classButtonLayout.addWidget(classContinue)
 
         classMainLayout.addLayout(classButtonLayout)
-        classButtonLayout.addWidget(classList)
+        classButtonLayout.addWidget(self.classList)
+        classButtonLayout.addWidget(classContinue)
         classMainLayout.addLayout(classEditButtonLayout)
         self.classesSelection.setLayout(classMainLayout)
+
+    def removeClass(self):
+        if not self.classList: return
+        for item in self.classList.selectedItems():
+            self.classList.takeItem(self.classList.row(item))
+
+    def addClass(self):
+        classNameText, classNameConfirm = QInputDialog.getText(self, "User class name: ", "Enter the class to add")
+        if classNameConfirm:
+            self.classList.insertItem(0, classNameText)
+
+
+
+
+
+
 
 
 
