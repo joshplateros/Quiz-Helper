@@ -5,7 +5,7 @@ canClose = False
 def getClasses():
     currentClasses = []
     for x in f:
-        currentClasses.append(x)
+        currentClasses.append(x.strip('\n'))
     canClose = True
     return currentClasses
 
