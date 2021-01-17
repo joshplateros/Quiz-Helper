@@ -86,7 +86,12 @@ class UI(QWidget):
         classRemoveButton.clicked.connect(self.removeClass)
         classAddButton.clicked.connect(self.addClass)
 
+        # Return to menu button
         classButtonLayout.addWidget(self.menuButton, alignment=Qt.AlignRight)
+
+        # Continue (save classes and move on)
+        classContinue.clicked.connect(lambda: classHelper.saveClasses(self.currentClasses))
+
 
         classMainLayout.addLayout(classButtonLayout)
         classButtonLayout.addWidget(self.classList)
@@ -98,11 +103,23 @@ class UI(QWidget):
         if not self.classList: return
         for item in self.classList.selectedItems():
             self.classList.takeItem(self.classList.row(item))
+        self.currentClasses = []
+        # Update classes
+        for index in range(0, self.classList.count()):
+            self.currentClasses.append(self.classList.item(index).text())
 
     def addClass(self):
         classNameText, classNameConfirm = QInputDialog.getText(self, "User class name: ", "Enter the class to add")
         if classNameConfirm:
-            self.classList.insertItem(0, classNameText)
+            exists = False
+            for x in self.currentClasses:
+                if x == classNameText:
+                    exists = True
+            if exists == False:
+                self.classList.insertItem(len(self.currentClasses), classNameText)
+        self.currentClasses = []
+        for index in range(0, self.classList.count()):
+            self.currentClasses.append(self.classList.item(index).text())
 
 
 
